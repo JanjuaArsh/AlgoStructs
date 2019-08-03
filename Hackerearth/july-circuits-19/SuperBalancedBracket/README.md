@@ -1,4 +1,4 @@
-# problem statement:
+# Problem Statement:
 
  > https://www.hackerearth.com/challenges/competitive/july-circuits-19/algorithm/superbalancedbracket-75edd495/
  
