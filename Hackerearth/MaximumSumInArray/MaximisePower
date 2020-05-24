@@ -1,0 +1,60 @@
+import java.util.*;
+public class MaximisePower {
+
+	public static void main(String[] args)
+	{
+		Scanner in = new Scanner(System.in);
+		int N = in.nextInt();
+		int[] H = new int[N];
+		int[] P = new int[N];
+		for(int i=0;i<N;i++)
+		{
+			H[i] = in.nextInt();
+		}
+		for(int i=0;i<N;i++)
+		{
+			P[i] = in.nextInt();
+		}
+		int sum = 0;
+		int temp =0;
+		boolean skip = false;
+		/* 
+		 * 10
+		 * 1 1 1 1 1 1 1 1 1 1 
+		 * 20 30 15 16 12 1 23 24 1 2
+		 * 15 15 12 13 13 13 1 1 1 1
+		*/
+			for(int i=0;i<N;i++)
+			{
+				if(skip)
+				{
+					sum = sum;
+					
+					if(temp+P[i]>=sum)
+					{
+						int temprr= sum;
+						sum = temp+P[i];
+						temp = temprr;
+						skip = false;
+						if(i+1<N)
+						{
+							if(H[i]==H[i+1] ) skip = true;
+						}
+						
+				}
+					else {skip = false;}
+			}
+				else
+				{
+					temp = sum;
+					sum = sum+P[i];
+					if(i+1<N)
+					{
+						if(H[i]==H[i+1] ) skip = true;
+					}
+					
+				}
+		}
+			System.out.println(sum);
+	}
+}
