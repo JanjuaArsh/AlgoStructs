@@ -1,0 +1,94 @@
+import static java.util.stream.Collectors.toList;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
+import java.util.stream.Stream;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
+class Result {
+    static int result = 0;
+    static int cc = 0;
+    static int [] ccnum;
+    static int sink = 0;
+    static void DFSUtil(int v, int[] visited, List<Integer> connection,int a) { 
+        
+            visited[v] = 1; 
+            ccnum[v] = cc;
+            if(visited[a] == 1)
+            {
+                
+                if(result == 0)
+                {
+                    
+                    if(v == a)sink++;
+                    if(v == a && cc != 0)
+                    {
+                        result++;
+                        sink++;
+                    }
+                     if(v != a && cc != 0)
+                    {
+                         if(ccnum[v] == ccnum[a])result++;
+                    }
+                }
+                else
+                {
+                    if(v == a)
+                        {result++;
+                        sink++;}
+                    else if(v != a)
+                    {
+                        if(ccnum[v] == ccnum[a])result++;
+                    }
+                }
+            }
+            else if(visited[a] == 0) 
+            {
+                 DFSUtil(a,visited,connection,connection.get(a)-1);
+            }   
+    } 
+    public static int getMinConnectionChange(List<Integer> connection) {
+    // Write your code here
+        int[] visited = new int[connection.size()];
+        ccnum = new int[connection.size()];
+        for(int i =0; i<connection.size();i++)
+        {
+            ccnum[i] = -1;
+        }
+        int i=0;
+        for(int a : connection)
+        {
+            if(visited[i] == 0)
+            {
+                DFSUtil(i,visited,connection,a-1);
+                cc++;
+            }
+            i++;
+        }
+        if(sink == 0)result++;
+        return result;
+    }
+
+}
+
+public class learnjava {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int n = Integer.parseInt(bufferedReader.readLine().trim());
+
+        List<Integer> connection = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .map(Integer::parseInt)
+            .collect(toList());
+
+        int result = Result.getMinConnectionChange(connection);
+       bufferedWriter.write(String.valueOf(result)); bufferedWriter.newLine();
+          
+        bufferedReader.close(); bufferedWriter.close();
+      
+    }
+}
